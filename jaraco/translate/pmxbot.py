@@ -1,7 +1,10 @@
 from . import google
-from pmxbot.botbase import command
+import pmxbot.botbase
 
-@command("translate", aliases=('trans', 'googletrans', 'googletranslate'),
+google.translate.API_KEY = pmxbot.config.google_translate_API_key
+
+@pmxbot.botbase.command("translate",
+	aliases=('trans', 'googletrans', 'googletranslate'),
 	doc="Translate a phrase using Google Translate. First argument should be "
 		"the language[s]. It is a 2 letter abbreviation. It will auto detect "
 		"the orig lang if you only give one; or two languages joined by a |, "
@@ -18,10 +21,10 @@ def test_translate(self):
 	The translate function should be able to translate a simple string.
 	"""
 	query = '|en que no desea la nueva pregunta'
-	res = translate(c, e, '#test', 'testrunner', query)
+	res = translate(None, None, '#test', 'testrunner', query)
 	assert 'new question' in res.lower()
 	query = 'es|en que no desea la nueva pregunta'
-	res = translate(c, e, '#test', 'testrunner', query)
+	res = translate(None, None, '#test', 'testrunner', query)
 	assert 'new question' in res.lower()
 
 def test_translate_invalid_lang(self):
@@ -30,5 +33,5 @@ def test_translate_invalid_lang(self):
 	"""
 	# sp is not a language
 	invalid_query = 'sp|en que no desea la nueva pregunta'
-	res = translate(c, e, '#test', 'testrunner', invalid_query)
+	res = translate(None, None, '#test', 'testrunner', invalid_query)
 	assert 'are you sure' in res.lower()

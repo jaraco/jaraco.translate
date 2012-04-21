@@ -10,11 +10,12 @@ def translate(text, target_lang='en', source_lang=None):
 	"""
 	url_base = 'https://www.googleapis.com/language/translate/v2'
 	params = dict(
-		key = translate.API_KEY,
+		key = translate.API_key,
 		q = text,
 		target = target_lang,
 	)
 	if source_lang:
 		params['source'] = source_lang
 	u = urllib2.urlopen(url_base + '?' + urllib.urlencode(params))
-	return json.loads(u.read())['data']['translations']['translatedText']
+	data = u.read()
+	return json.loads(data)['data']['translations'][0]['translatedText']
