@@ -1,7 +1,13 @@
+from __future__ import absolute_import
+
+import urllib2
+
 from . import google
 import pmxbot.botbase
+import pmxbot.pmxbot
 
-google.translate.API_KEY = pmxbot.config.google_translate_API_key
+def set_key():
+	google.translate.API_key = pmxbot.pmxbot.config.google_translate_API_key
 
 @pmxbot.botbase.command("translate",
 	aliases=('trans', 'googletrans', 'googletranslate'),
@@ -11,10 +17,21 @@ google.translate.API_KEY = pmxbot.config.google_translate_API_key
 		"for example 'en|de' to trans from English to German. Follow this by "
 		"the phrase you want to translate.")
 def translate(client, event, channel, nick, rest):
+	try:
+		set_key()
+	except Exception:
+		return ("No API key configured. Google charges for translation. "
+			"Please register for an API key at "
+			"https://code.google.com/apis/console/?api=translate&promo=tr "
+			"and set the google_translate_API_key config variable to a valid key")
 	rest = rest.strip()
 	langpair, _, rest = rest.partition(' ')
 	source_lang, _, target_lang = langpair.rpartition('|')
-	return google.translate(rest.encode('utf-8'), target_lang, source_lang)
+	try:
+		return google.translate(rest.encode('utf-8'), target_lang, source_lang)
+	except urllib2.HTTPError:
+		return ("An error occurred. Are you sure {langpair} is a valid "
+			"language?".format(**vars()))
 
 def test_translate(self):
 	"""
