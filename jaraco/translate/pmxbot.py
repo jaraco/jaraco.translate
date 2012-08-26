@@ -3,13 +3,12 @@ from __future__ import absolute_import
 import urllib2
 
 from . import google
-import pmxbot.botbase
-import pmxbot.pmxbot
+import pmxbot.core
 
 def set_key():
-	google.translate.API_key = pmxbot.pmxbot.config.google_translate_API_key
+	google.translate.API_key = pmxbot.config.google_translate_API_key
 
-@pmxbot.botbase.command("translate",
+@pmxbot.core.command("translate",
 	aliases=('trans', 'googletrans', 'googletranslate'),
 	doc="Translate a phrase using Google Translate. First argument should be "
 		"the language[s]. It is a 2 letter abbreviation. It will auto detect "
