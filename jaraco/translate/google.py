@@ -1,7 +1,4 @@
-
-import json
-import urllib
-import urllib2
+import requests
 
 def translate(text, target_lang='en', source_lang=None):
 	"""
@@ -16,6 +13,5 @@ def translate(text, target_lang='en', source_lang=None):
 	)
 	if source_lang:
 		params['source'] = source_lang
-	u = urllib2.urlopen(url_base + '?' + urllib.urlencode(params))
-	data = u.read()
-	return json.loads(data)['data']['translations'][0]['translatedText']
+	resp = requests.get(url_base, params=params)
+	return resp.json()['data']['translations'][0]['translatedText']

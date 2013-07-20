@@ -16,6 +16,9 @@ setup_params = dict(
 	packages=setuptools.find_packages(),
 	namespace_packages=['jaraco'],
 	zip_safe=False,
+	install_requires=[
+		'requests',
+	],
 	setup_requires=[
 		'hgtools',
 	],
