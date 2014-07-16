@@ -1,9 +1,11 @@
 from __future__ import absolute_import
 
-import urllib2
+import logging
 
 from . import google
 import pmxbot.core
+
+log = logging.getLogger(__name__)
 
 def set_key():
 	google.translate.API_key = pmxbot.config.google_translate_API_key
@@ -28,9 +30,11 @@ def translate(client, event, channel, nick, rest):
 	source_lang, _, target_lang = langpair.rpartition('|')
 	try:
 		return google.translate(rest.encode('utf-8'), target_lang, source_lang)
-	except urllib2.HTTPError:
-		return ("An error occurred. Are you sure {langpair} is a valid "
-			"language?".format(**vars()))
+	except Exception:
+		log.exception("Error occurred in translate")
+		tmpl = ("An error occurred. "
+			"Are you sure {langpair} is a valid language?")
+		return tmpl.format(**vars())
 
 def test_translate(self):
 	"""
