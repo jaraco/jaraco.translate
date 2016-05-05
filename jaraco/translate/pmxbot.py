@@ -8,7 +8,10 @@ import pmxbot.core
 log = logging.getLogger(__name__)
 
 def set_key():
-	google.translate.API_key = pmxbot.config.google_translate_API_key
+	fallback_key = pmxbot.config.get('google_translate_API_key')
+	key = pmxbot.config.get('Google API key', fallback_key)
+	assert key
+	google.translate.API_key = key
 
 @pmxbot.core.command("translate",
 	aliases=('trans', 'googletrans', 'googletranslate'))
@@ -26,7 +29,7 @@ def translate(client, event, channel, nick, rest):
 		return ("No API key configured. Google charges for translation. "
 			"Please register for an API key at "
 			"https://code.google.com/apis/console/?api=translate&promo=tr "
-			"and set the google_translate_API_key config variable to a valid key")
+			"and set the 'Google API key' config variable to a valid key")
 	rest = rest.strip()
 	langpair, _, rest = rest.partition(' ')
 	source_lang, _, target_lang = langpair.rpartition('|')
