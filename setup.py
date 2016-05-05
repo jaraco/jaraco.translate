@@ -20,6 +20,9 @@ wheel = ['wheel'] if needs_wheel else []
 name = 'jaraco.translate'
 description = 'Natural Language Translation using the Google API'
 
+PY3 = sys.version_info > (3,)
+pmxbot = ['pmxbot'] if PY3 else []
+
 setup_params = dict(
 	name=name,
 	use_scm_version=True,
@@ -41,7 +44,7 @@ setup_params = dict(
 	] + pytest_runner + sphinx + wheel,
 	tests_require=[
 		'pytest>=2.8',
-	],
+	] + pmxbot,
 	classifiers=[
 		"Development Status :: 5 - Production/Stable",
 		"Intended Audience :: Developers",
