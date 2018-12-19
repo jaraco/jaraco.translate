@@ -5,6 +5,8 @@
   Any applications still using ``google_translate_API_key``
   should instead supply that value with ``Google API key``.
 
+* Drop support for Python 3.5 and earlier.
+
 1.3
 ===
 
