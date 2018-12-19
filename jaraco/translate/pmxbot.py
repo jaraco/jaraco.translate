@@ -7,13 +7,16 @@ import pmxbot.core
 
 log = logging.getLogger(__name__)
 
+
 def set_key():
 	fallback_key = pmxbot.config.get('google_translate_API_key')
 	key = pmxbot.config.get('Google API key', fallback_key)
 	assert key
 	google.translate.API_key = key
 
-@pmxbot.core.command("translate",
+
+@pmxbot.core.command(
+	"translate",
 	aliases=('trans', 'googletrans', 'googletranslate'))
 def translate(client, event, channel, nick, rest):
 	"""
@@ -26,7 +29,8 @@ def translate(client, event, channel, nick, rest):
 	try:
 		set_key()
 	except Exception:
-		return ("No API key configured. Google charges for translation. "
+		return (
+			"No API key configured. Google charges for translation. "
 			"Please register for an API key at "
 			"https://code.google.com/apis/console/?api=translate&promo=tr "
 			"and set the 'Google API key' config variable to a valid key")
@@ -37,9 +41,11 @@ def translate(client, event, channel, nick, rest):
 		return google.translate(rest.encode('utf-8'), target_lang, source_lang)
 	except Exception:
 		log.exception("Error occurred in translate")
-		tmpl = ("An error occurred. "
+		tmpl = (
+			"An error occurred. "
 			"Are you sure {langpair} is a valid language?")
 		return tmpl.format(**vars())
+
 
 def test_translate(self):
 	"""
@@ -51,6 +57,7 @@ def test_translate(self):
 	query = 'es|en que no desea la nueva pregunta'
 	res = translate(None, None, '#test', 'testrunner', query)
 	assert 'new question' in res.lower()
+
 
 def test_translate_invalid_lang(self):
 	"""

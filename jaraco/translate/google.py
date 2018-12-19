@@ -1,5 +1,6 @@
 import requests
 
+
 def translate(text, target_lang='en', source_lang=None):
 	"""
 	Use the Google v2 API to translate the text. You had better have set
