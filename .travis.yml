@@ -1,18 +1,34 @@
+dist: xenial
 sudo: false
 language: python
+
 python:
 - 2.7
-- 3.5
-script:
-- pip install -U pytest
-- python setup.py test
-deploy:
-  provider: pypi
-  on:
-    tags: true
-    all_branches: true
-    python: 3.5
-  user: jaraco
-  distributions: release
-  password:
-    secure: g3YRlcDwloi+Gg2+y/FDhmkgHD1nMiq1l1QAe5efCI9ZxZJWLWjX/z+OiaYTd96iK5UXnx4y6AevAJunvafC9AbzO1I19TrkJjGgxL91fhheVUwkRn8txCNuKbnr3pa9l053MnPIifXwSaSfm25VsS3/tyM5u4D4KQHoLdGy0eY5WR9/bMjkwfDB9EpB4f45N1Y7EAn1fEv4hldCMhtUV6SnNyJTVfDJcON1y+XCrvw+glXd9JLeHcJsX9unFsOdPYkH9ev0RD1x8zjFVj/dBRSR+Y2+AFcrQyHUAG/McrS3uYGacc9Qn0La0UvzWrj+2dxvisu8C2yMod6GBSW61eMu3q0LTUBd2OXMx47eRMerI5jnjohK+477PV9KBczIE4QSwPKe0h0bSuUHGFsB9JzYrRNTqwJeKdXFIVoOZvDooOTkT7zWepFYRCCe3xGoiGNg8TWGrr3qnVSEeRiJ1xdwjVYHAIPq19XIWvYydeJaGYAHQnT6koprKV7mRb4/wl9MUsNVBy0ZuhUgZy6ePC6cEZavpIbJPMlgzEQlC7Qj0GAFTSWi6j4I2qpe5dC1HLl95W7A1MN8rD/yFY3DzeBgv9cgRDvMJwxWF8CKz61dIv5F07tTIgQAZlqIwmZLOQwshNWgV4rcUe+kGkpFNmNPjOPor6fgstEbmC5Gdio=
+- 3.6
+- &latest_py3 3.7
+
+jobs:
+  fast_finish: true
+  include:
+  - stage: deploy
+    if: tag IS present
+    python: *latest_py3
+    before_script: skip
+    env:
+    - TWINE_USERNAME=jaraco
+    # TWINE_PASSWORD
+    - secure: D9S9kHs8IkvnrpKx5yauQB6uD5cx62BUvnpTZoRiJ98K1HMMjQ8Uo1SlcY/UzfQT6fElbJOHRSscK/HGwmDDaJgQiquvi+mbGPycPk/rT9mDMFtXysree8TVPOXbzqUdvTvUckOxBF0NsIcRGpl2Er9D4kjypQOn0+ReT5vtcnqJPv0RVh+r+WuPfdh60f9BlcKTrqFFJWtq3UnxWrHoexRDFsby/WmxJZ4pXksvM/Jf4tuwADUOZa/tfsMZ7kZCtfJtYq2dUNciWUMBGlxTH8tbrnhP2s9x3TyLj2POPbFsstQ7GHHUH7LB2EiGnsXkuUohlIfDUPsVfjR9B3YIHejFoRPnNqNPjrNUIjnPfAk1SmQQUSnWP+S8lXpN48PAxorywkaNQPDMvml6KlNv8EPW4FmSKsCeiCemaRoZxkhgRt0lw7Y2Nyd9IwzOqqWJMnN7YL+ndQ306tPpPqKxekArR4OCBHdFSX+C1VD8BhtQNzX5vNsMpoj5xR0BgzsD3j3JHArFZOCdq6sB8H28AP7rD6nAXNaETWKbF+vethVfNUkbJ9srpVXfrfnOHaxm5CTLckqPLbv0E5zFRpSmTb57wUtbzS9WoBGrncI26nwgWmgGT+Eq1v9D34vQXq4r6FOTv9O4DHaz4RmJna/jpX77SP9S+wnqe/nNR3zuPEU=
+    - TOX_TESTENV_PASSENV="TWINE_USERNAME TWINE_PASSWORD"
+    script: tox -e release
+
+cache: pip
+
+install:
+- pip install tox tox-venv
+
+before_script:
+  # Disable IPv6. Ref travis-ci/travis-ci#8361
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      sudo sh -c 'echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6';
+    fi
+script: tox
