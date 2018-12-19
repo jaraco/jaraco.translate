@@ -9,8 +9,7 @@ log = logging.getLogger(__name__)
 
 
 def set_key():
-	fallback_key = pmxbot.config.get('google_translate_API_key')
-	key = pmxbot.config.get('Google API key', fallback_key)
+	key = pmxbot.config.get('Google API key')
 	assert key
 	google.translate.API_key = key
 

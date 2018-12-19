@@ -1,3 +1,10 @@
+2.0
+===
+
+* In pmxbot plugin, drop support for legacy config variable.
+  Any applications still using ``google_translate_API_key``
+  should instead supply that value with ``Google API key``.
+
 1.3
 ===
 
