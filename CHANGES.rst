@@ -1,3 +1,8 @@
+v3.1.0
+======
+
+Refreshed package data. Now using PEP 420 namespace package.
+
 3.0
 ===
 
