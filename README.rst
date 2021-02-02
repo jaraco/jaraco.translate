@@ -1,16 +1,21 @@
 .. image:: https://img.shields.io/pypi/v/jaraco.translate.svg
-   :target: https://pypi.org/project/jaraco.translate
+   :target: `PyPI link`_
 
 .. image:: https://img.shields.io/pypi/pyversions/jaraco.translate.svg
+   :target: `PyPI link`_
 
-.. image:: https://img.shields.io/travis/jaraco/jaraco.translate/master.svg
-   :target: https://travis-ci.org/jaraco/jaraco.translate
+.. _PyPI link: https://pypi.org/project/jaraco.translate
 
-.. .. image:: https://img.shields.io/appveyor/ci/jaraco/jaraco-translate/master.svg
-..    :target: https://ci.appveyor.com/project/jaraco/jaraco-translate/branch/master
+.. image:: https://github.com/jaraco/jaraco.translate/workflows/Automated%20Tests/badge.svg
+   :target: https://github.com/jaraco/jaraco.translate/actions?query=workflow%3A%22Automated+Tests%22
+   :alt: Automated Tests
 
-.. .. image:: https://readthedocs.org/projects/jaracotranslate/badge/?version=latest
-..    :target: https://jaracotranslate.readthedocs.io/en/latest/?badge=latest
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+   :alt: Code style: Black
+
+.. .. image:: https://readthedocs.org/projects/skeleton/badge/?version=latest
+..    :target: https://skeleton.readthedocs.io/en/latest/?badge=latest
 
 Natural language translation support using Google APIs.
 
