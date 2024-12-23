@@ -39,7 +39,7 @@ def translate(client, event, channel, nick, rest):
         return google.translate(rest.encode('utf-8'), target_lang, source_lang)
     except Exception:
         log.exception("Error occurred in translate")
-        tmpl = "An error occurred. " "Are you sure {langpair} is a valid language?"
+        tmpl = "An error occurred. Are you sure {langpair} is a valid language?"
         return tmpl.format(**vars())
 
 
